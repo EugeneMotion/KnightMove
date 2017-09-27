@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Knight's tour</title>
+    <link rel="icon" type="image/png" href="img/horse.png">
+    <style>
+      html{line-height:1.15;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,footer,header,nav,section{display:block}h1{font-size:2em;margin:.67em 0}figcaption,figure,main{display:block}figure{margin:1em 40px}hr{box-sizing:content-box;height:0;overflow:visible}pre{font-family:monospace,monospace;font-size:1em}a{background-color:transparent;-webkit-text-decoration-skip:objects}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:inherit}b,strong{font-weight:bolder}code,kbd,samp{font-family:monospace,monospace;font-size:1em}dfn{font-style:italic}mark{background-color:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}audio,video{display:inline-block}audio:not([controls]){display:none;height:0}img{border-style:none}svg:not(:root){overflow:hidden}button,input,optgroup,select,textarea{font-family:sans-serif;font-size:100%;line-height:1.15;margin:0}button,input{overflow:visible}button,select{text-transform:none}[type=reset],[type=submit],button,html [type=button]{-webkit-appearance:button}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:1px dotted ButtonText}fieldset{padding:.35em .75em .625em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}progress{display:inline-block;vertical-align:baseline}textarea{overflow:auto}[type=checkbox],[type=radio]{box-sizing:border-box;padding:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-cancel-button,[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}details,menu{display:block}summary{display:list-item}canvas{display:inline-block}template{display:none}[hidden]{display:none}.switchery{background-color:#fff;border:1px solid #dfdfdf;border-radius:20px;cursor:pointer;display:inline-block;height:30px;position:relative;vertical-align:middle;width:50px;-moz-user-select:none;-khtml-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none;box-sizing:content-box;background-clip:content-box}.switchery>small{background:#fff;border-radius:100%;box-shadow:0 1px 3px rgba(0,0,0,.4);height:30px;position:absolute;top:0;width:30px}.switchery-small{border-radius:20px;height:20px;width:33px}.switchery-small>small{height:20px;width:20px}.switchery-large{border-radius:40px;height:40px;width:66px}.switchery-large>small{height:40px;width:40px}@font-face{font-family:'Comfortaa';font-style:normal;font-weight:400;src:local("Comfortaa Regular"),local("Comfortaa-Regular"),url("fonts/comfortaa-v10-cyrillic-regular.woff2") format("woff2"),url("fonts/comfortaa-v10-cyrillic-regular.woff") format("woff")}html,body{overflow-x:hidden;padding:0;margin:0}body{font-family:'Comfortaa', Arial, sans-serif;background-color:#222}.container{margin-left:auto;margin-right:auto;width:960px}header{background-color:#D24D57;margin-bottom:0.4rem}header h1{display:inline-block;margin:0;color:#fff;vertical-align:middle}header span{display:inline-block;color:#fff;float:right;text-align:right;vertical-align:middle;line-height:4.5rem}#sprite{display:none}.svg-logo{display:inline-block;vertical-align:middle;width:3.5rem;height:3.5rem;margin-right:0.3rem;margin-top:0.5rem;margin-bottom:0.5rem;fill:#fff}.hidden{display:none}.main{display:grid;grid-template-columns:4fr 1fr;grid-gap:.4rem;margin-bottom:0.4rem}.board,.info{background-color:#fff;border-radius:0.25rem;margin-bottom:0.2rem}.board{padding:0.1rem;padding-bottom:0;cursor:pointer;overflow:hidden}.svg-board rect{stroke:#fff;fill:#D24D57;stroke-width:4px;rx:5px}.svg-board g g:hover rect{fill:cornflowerblue}.svg-board text{fill:#fff;font-size:1.5rem;text-anchor:middle;alignment-baseline:middle}.svg-board text.dark{fill:#D24D57;font-weight:bold;text-anchor:end}.svg-board use{fill:#fff}.svg-line{fill:none;stroke:#333;stroke-width:4px;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:18000;stroke-dashoffset:18000;animation:dash 2s linear forwards;animation-delay:1.5s}@keyframes dash{to{stroke-dashoffset:0}}.info{padding:1rem}.info-header{text-align:center}.info-header,.info-pos,.info-iter,.info-time{display:block;margin-bottom:1rem}.info-lines .caption{margin-left:0.5rem}.info-lines small{background-color:#D24D57}@media (max-width: 1200px){.container{width:80%}}@media (max-width: 992px){.container{width:97%}}@media (max-width: 768px){.main{grid-template-columns:1fr}}@media (max-width: 480px){header h1{font-size:1.3rem}header span{font-size:0.8rem;line-height:3.5rem}.svg-logo{height:2.5rem;margin-right:0.1rem}}@media (max-width: 320px){header span{display:none}}
+
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <svg class="svg-logo">
+          <use xlink:href="#horse-logo"></use>
+        </svg>
+        <h1>Knight's tour</h1><span>© by Eugene Mo</span>
+      </div>
+    </header>
+    <div class="container main">
+      <div class="board">
+        <svg class="svg-board" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+          <g>
+            <g id="cell-11">
+              <rect x="0" y="0" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(12.5,12.5) scale(0.10)"></use>
+              <text x="62.5" y="62.5"></text>
+            </g>
+            <g id="cell-21">
+              <rect x="125" y="0" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(137.5,12.5) scale(0.10)"></use>
+              <text x="187.5" y="62.5"></text>
+            </g>
+            <g id="cell-31">
+              <rect x="250" y="0" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(262.5,12.5) scale(0.10)"></use>
+              <text x="312.5" y="62.5"></text>
+            </g>
+            <g id="cell-41">
+              <rect x="375" y="0" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(387.5,12.5) scale(0.10)"></use>
+              <text x="437.5" y="62.5"></text>
+            </g>
+            <g id="cell-51">
+              <rect x="500" y="0" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(512.5,12.5) scale(0.10)"></use>
+              <text x="562.5" y="62.5"></text>
+            </g>
+            <g id="cell-61">
+              <rect x="625" y="0" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(637.5,12.5) scale(0.10)"></use>
+              <text x="687.5" y="62.5"></text>
+            </g>
+            <g id="cell-71">
+              <rect x="750" y="0" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(762.5,12.5) scale(0.10)"></use>
+              <text x="812.5" y="62.5"></text>
+            </g>
+            <g id="cell-81">
+              <rect x="875" y="0" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(887.5,12.5) scale(0.10)"></use>
+              <text x="937.5" y="62.5"></text>
+            </g>
+          </g>
+          <g>
+            <g id="cell-12">
+              <rect x="0" y="125" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(12.5,137.5) scale(0.10)"></use>
+              <text x="62.5" y="187.5"></text>
+            </g>
+            <g id="cell-22">
+              <rect x="125" y="125" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(137.5,137.5) scale(0.10)"></use>
+              <text x="187.5" y="187.5"></text>
+            </g>
+            <g id="cell-32">
+              <rect x="250" y="125" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(262.5,137.5) scale(0.10)"></use>
+              <text x="312.5" y="187.5"></text>
+            </g>
+            <g id="cell-42">
+              <rect x="375" y="125" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(387.5,137.5) scale(0.10)"></use>
+              <text x="437.5" y="187.5"></text>
+            </g>
+            <g id="cell-52">
+              <rect x="500" y="125" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(512.5,137.5) scale(0.10)"></use>
+              <text x="562.5" y="187.5"></text>
+            </g>
+            <g id="cell-62">
+              <rect x="625" y="125" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(637.5,137.5) scale(0.10)"></use>
+              <text x="687.5" y="187.5"></text>
+            </g>
+            <g id="cell-72">
+              <rect x="750" y="125" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(762.5,137.5) scale(0.10)"></use>
+              <text x="812.5" y="187.5"></text>
+            </g>
+            <g id="cell-82">
+              <rect x="875" y="125" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(887.5,137.5) scale(0.10)"></use>
+              <text x="937.5" y="187.5"></text>
+            </g>
+          </g>
+          <g>
+            <g id="cell-13">
+              <rect x="0" y="250" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(12.5,262.5) scale(0.10)"></use>
+              <text x="62.5" y="312.5"></text>
+            </g>
+            <g id="cell-23">
+              <rect x="125" y="250" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(137.5,262.5) scale(0.10)"></use>
+              <text x="187.5" y="312.5"></text>
+            </g>
+            <g id="cell-33">
+              <rect x="250" y="250" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(262.5,262.5) scale(0.10)"></use>
+              <text x="312.5" y="312.5"></text>
+            </g>
+            <g id="cell-43">
+              <rect x="375" y="250" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(387.5,262.5) scale(0.10)"></use>
+              <text x="437.5" y="312.5"></text>
+            </g>
+            <g id="cell-53">
+              <rect x="500" y="250" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(512.5,262.5) scale(0.10)"></use>
+              <text x="562.5" y="312.5"></text>
+            </g>
+            <g id="cell-63">
+              <rect x="625" y="250" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(637.5,262.5) scale(0.10)"></use>
+              <text x="687.5" y="312.5"></text>
+            </g>
+            <g id="cell-73">
+              <rect x="750" y="250" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(762.5,262.5) scale(0.10)"></use>
+              <text x="812.5" y="312.5"></text>
+            </g>
+            <g id="cell-83">
+              <rect x="875" y="250" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(887.5,262.5) scale(0.10)"></use>
+              <text x="937.5" y="312.5"></text>
+            </g>
+          </g>
+          <g>
+            <g id="cell-14">
+              <rect x="0" y="375" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(12.5,387.5) scale(0.10)"></use>
+              <text x="62.5" y="437.5"></text>
+            </g>
+            <g id="cell-24">
+              <rect x="125" y="375" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(137.5,387.5) scale(0.10)"></use>
+              <text x="187.5" y="437.5"></text>
+            </g>
+            <g id="cell-34">
+              <rect x="250" y="375" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(262.5,387.5) scale(0.10)"></use>
+              <text x="312.5" y="437.5"></text>
+            </g>
+            <g id="cell-44">
+              <rect x="375" y="375" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(387.5,387.5) scale(0.10)"></use>
+              <text x="437.5" y="437.5"></text>
+            </g>
+            <g id="cell-54">
+              <rect x="500" y="375" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(512.5,387.5) scale(0.10)"></use>
+              <text x="562.5" y="437.5"></text>
+            </g>
+            <g id="cell-64">
+              <rect x="625" y="375" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(637.5,387.5) scale(0.10)"></use>
+              <text x="687.5" y="437.5"></text>
+            </g>
+            <g id="cell-74">
+              <rect x="750" y="375" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(762.5,387.5) scale(0.10)"></use>
+              <text x="812.5" y="437.5"></text>
+            </g>
+            <g id="cell-84">
+              <rect x="875" y="375" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(887.5,387.5) scale(0.10)"></use>
+              <text x="937.5" y="437.5"></text>
+            </g>
+          </g>
+          <g>
+            <g id="cell-15">
+              <rect x="0" y="500" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(12.5,512.5) scale(0.10)"></use>
+              <text x="62.5" y="562.5"></text>
+            </g>
+            <g id="cell-25">
+              <rect x="125" y="500" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(137.5,512.5) scale(0.10)"></use>
+              <text x="187.5" y="562.5"></text>
+            </g>
+            <g id="cell-35">
+              <rect x="250" y="500" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(262.5,512.5) scale(0.10)"></use>
+              <text x="312.5" y="562.5"></text>
+            </g>
+            <g id="cell-45">
+              <rect x="375" y="500" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(387.5,512.5) scale(0.10)"></use>
+              <text x="437.5" y="562.5"></text>
+            </g>
+            <g id="cell-55">
+              <rect x="500" y="500" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(512.5,512.5) scale(0.10)"></use>
+              <text x="562.5" y="562.5"></text>
+            </g>
+            <g id="cell-65">
+              <rect x="625" y="500" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(637.5,512.5) scale(0.10)"></use>
+              <text x="687.5" y="562.5"></text>
+            </g>
+            <g id="cell-75">
+              <rect x="750" y="500" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(762.5,512.5) scale(0.10)"></use>
+              <text x="812.5" y="562.5"></text>
+            </g>
+            <g id="cell-85">
+              <rect x="875" y="500" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(887.5,512.5) scale(0.10)"></use>
+              <text x="937.5" y="562.5"></text>
+            </g>
+          </g>
+          <g>
+            <g id="cell-16">
+              <rect x="0" y="625" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(12.5,637.5) scale(0.10)"></use>
+              <text x="62.5" y="687.5"></text>
+            </g>
+            <g id="cell-26">
+              <rect x="125" y="625" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(137.5,637.5) scale(0.10)"></use>
+              <text x="187.5" y="687.5"></text>
+            </g>
+            <g id="cell-36">
+              <rect x="250" y="625" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(262.5,637.5) scale(0.10)"></use>
+              <text x="312.5" y="687.5"></text>
+            </g>
+            <g id="cell-46">
+              <rect x="375" y="625" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(387.5,637.5) scale(0.10)"></use>
+              <text x="437.5" y="687.5"></text>
+            </g>
+            <g id="cell-56">
+              <rect x="500" y="625" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(512.5,637.5) scale(0.10)"></use>
+              <text x="562.5" y="687.5"></text>
+            </g>
+            <g id="cell-66">
+              <rect x="625" y="625" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(637.5,637.5) scale(0.10)"></use>
+              <text x="687.5" y="687.5"></text>
+            </g>
+            <g id="cell-76">
+              <rect x="750" y="625" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(762.5,637.5) scale(0.10)"></use>
+              <text x="812.5" y="687.5"></text>
+            </g>
+            <g id="cell-86">
+              <rect x="875" y="625" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(887.5,637.5) scale(0.10)"></use>
+              <text x="937.5" y="687.5"></text>
+            </g>
+          </g>
+          <g>
+            <g id="cell-17">
+              <rect x="0" y="750" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(12.5,762.5) scale(0.10)"></use>
+              <text x="62.5" y="812.5"></text>
+            </g>
+            <g id="cell-27">
+              <rect x="125" y="750" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(137.5,762.5) scale(0.10)"></use>
+              <text x="187.5" y="812.5"></text>
+            </g>
+            <g id="cell-37">
+              <rect x="250" y="750" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(262.5,762.5) scale(0.10)"></use>
+              <text x="312.5" y="812.5"></text>
+            </g>
+            <g id="cell-47">
+              <rect x="375" y="750" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(387.5,762.5) scale(0.10)"></use>
+              <text x="437.5" y="812.5"></text>
+            </g>
+            <g id="cell-57">
+              <rect x="500" y="750" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(512.5,762.5) scale(0.10)"></use>
+              <text x="562.5" y="812.5"></text>
+            </g>
+            <g id="cell-67">
+              <rect x="625" y="750" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(637.5,762.5) scale(0.10)"></use>
+              <text x="687.5" y="812.5"></text>
+            </g>
+            <g id="cell-77">
+              <rect x="750" y="750" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(762.5,762.5) scale(0.10)"></use>
+              <text x="812.5" y="812.5"></text>
+            </g>
+            <g id="cell-87">
+              <rect x="875" y="750" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(887.5,762.5) scale(0.10)"></use>
+              <text x="937.5" y="812.5"></text>
+            </g>
+          </g>
+          <g>
+            <g id="cell-18">
+              <rect x="0" y="875" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(12.5,887.5) scale(0.10)"></use>
+              <text x="62.5" y="937.5"></text>
+            </g>
+            <g id="cell-28">
+              <rect x="125" y="875" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(137.5,887.5) scale(0.10)"></use>
+              <text x="187.5" y="937.5"></text>
+            </g>
+            <g id="cell-38">
+              <rect x="250" y="875" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(262.5,887.5) scale(0.10)"></use>
+              <text x="312.5" y="937.5"></text>
+            </g>
+            <g id="cell-48">
+              <rect x="375" y="875" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(387.5,887.5) scale(0.10)"></use>
+              <text x="437.5" y="937.5"></text>
+            </g>
+            <g id="cell-58">
+              <rect x="500" y="875" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(512.5,887.5) scale(0.10)"></use>
+              <text x="562.5" y="937.5"></text>
+            </g>
+            <g id="cell-68">
+              <rect x="625" y="875" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(637.5,887.5) scale(0.10)"></use>
+              <text x="687.5" y="937.5"></text>
+            </g>
+            <g id="cell-78">
+              <rect x="750" y="875" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(762.5,887.5) scale(0.10)"></use>
+              <text x="812.5" y="937.5"></text>
+            </g>
+            <g id="cell-88">
+              <rect x="875" y="875" width="125" height="125"></rect>
+              <use class="hidden" xlink:href="#horse" transform="translate(887.5,887.5) scale(0.10)"></use>
+              <text x="937.5" y="937.5"></text>
+            </g>
+          </g>
+          <g class="svg-line"></g>
+        </svg>
+      </div>
+      <div class="info"><span class="info-header">Info</span><span class="info-pos"></span><span class="info-iter"></span><span class="info-time"></span><span class="info-lines">
+          <input class="js-switch-lines" type="checkbox" checked><span class="caption">lines</span></span></div>
+    </div><svg id="sprite" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<symbol id="horse" viewBox="0 0 196.285 196.285">
+<path d="M38.228,155.075c-26.554-39.188-7.814-69.794-7.814-69.794c-4.354-1.289-18.279,7.837-18.279,7.837c7.832-28.702,50.91-53.087,50.91-53.087c-4.782-1.75-18.273,1.726-18.273,1.726c35.243-33.919,78.326-21.306,78.326-21.306C124.398,13.048,145.73,0,145.73,0c-2.182,2.161-3.062,13.926-3.062,13.926c2.176-3.922,9.15-7.837,9.15-7.837c-3.913,9.126,0,28.703,0,28.703c11.312,11.322,23.927,50.49,23.927,50.49l4.8,6.96c6.094,8.715,3.854,22.417-2.182,25.667c-22.62,12.212-24.808-10.001-24.808-10.001c-18.713-2.176-32.639-23.07-32.639-23.07c-25.23,13.051-11.178,49.869-0.284,64.007c13.997,18.123,3.748,47.44,3.748,47.44S64.448,193.803,38.228,155.075z"/>
+</symbol>
+<symbol id="horse-logo" viewBox="0 0 188.902 188.902">
+<path d="M174.873,113.481c-21.775,11.732-23.855-9.641-23.855-9.641c-18.011-2.081-31.398-22.198-31.398-22.198c-24.32,12.563-10.764,47.998-0.283,61.604c13.464,17.438,3.605,45.655,3.605,45.655s-54.902-4.438-82.929-39.649c-21.045-26.434-15.601-51.424-9.617-67.918c7.208-19.821,16.952-30.7,31.159-42.271c21.119-17.221,60.139-19.375,60.139-19.375c0.255-1.463,1.454-3.171,2.985-4.927c-4.699,0.127-10.438,0.52-16.976,1.375c-4.457,0.86-9.383,1.351-14.372,2.813c-5.107,1.103-10.282,2.875-15.578,4.903c-5.29,1.974-10.491,4.776-15.628,7.693c-4.879,3.401-10.06,6.537-14.159,11.015c-4.702,3.833-8.127,8.813-11.644,13.589c-3.673,4.685-5.477,10.4-8.225,15.321c-2.039,5.251-3.177,10.663-4.717,15.616c-1.386,4.992-1.365,9.993-2.068,14.485c-0.594,4.504-1.046,8.635-0.704,12.329c0.121,3.688,0.195,6.922,0.281,9.563c0.157,5.297,0.254,8.334,0.254,8.334l-0.732,0.065c0,0-0.63-2.967-1.454-8.311c-0.394-2.665-0.884-5.929-1.41-9.676c-0.804-3.747-0.827-8.026-0.479-12.72c0.266-3.381,0.316-7.046,0.629-10.802L8.898,90.16l9.011-11.042l-9.46-1.354l13.515-10.368l-9.921-3.156l13.982-7.66l-10.592-3.153l18.255-5.867l-12.62-3.605l20.507-5.642l-11.26-5.175l20.732-2.707l-10.14-5.857l25.307-2.651c0.121-0.056,0.243-0.115,0.358-0.156l-11.695-5.296l26.602-2.252L69.289,7.9l50.318,3.993c2.719,0.121,5.095,0.334,7.258,0.57C133.326,6.271,143.486,0,143.486,0c-2.092,2.084-2.926,13.406-2.926,13.406c2.087-3.783,8.79-7.548,8.79-7.548c-3.76,8.79,0,27.63,0,27.63c10.899,10.902,23.04,48.581,23.04,48.581l4.622,6.694C182.84,97.161,180.689,110.343,174.873,113.481z"/>
+</symbol>
+</svg>
+    <script src="js/libs.min.js" defer></script>
+    <script src="js/main.js" defer></script>
+  </body>
+</html>

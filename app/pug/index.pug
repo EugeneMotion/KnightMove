@@ -1,0 +1,40 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset = 'utf-8')
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1")
+        title Knight's tour
+        link(rel="icon", type="image/png", href="img/horse.png")
+        //-link(rel='stylesheet', href='css/libs.min.css')        
+        //-link(rel='stylesheet', href='css/style.css')        
+        style
+            include ../css/libs.min.css 
+            include ../css/style.css
+    body
+        header
+            .container
+                svg.svg-logo
+                    use(xlink:href="#horse-logo")
+                h1 Knight's tour
+                span © by Eugene Mo
+        //- Board
+        .container.main
+            .board
+                include _board.pug
+            .info
+                span.info-header Info
+                span.info-pos
+                span.info-iter
+                span.info-time
+                span.info-lines
+                    input(type="checkbox", class="js-switch-lines", checked)
+                    span.caption lines
+        
+        //- Svg symbol sprite 
+        include ../img/sprite.svg
+        
+        //- Load Scripts
+        //-script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js', defer)
+        script(src='js/libs.min.js', defer)
+        script(src='js/main.js', defer)

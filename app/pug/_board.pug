@@ -1,0 +1,14 @@
+- var dim = 1000;
+- var w = dim/8;
+
+svg.svg-board(version="1.1", xmlns="http://www.w3.org/2000/svg", viewBox="0 0 1000 1000")
+    - for(var y = 1; y <= 8; y++){
+        g
+            - for(var x = 1; x <= 8; x++){
+                g(id = "cell-" + x + y)
+                    rect(x = w*(x - 1) y = w*(y - 1) width=w height=w)
+                    use.hidden(xlink:href="#horse", transform="translate(" + (w*(x-0.90)).toFixed(1) +","+ (w*(y-0.90)).toFixed(1) + ") scale(0.10)")
+                    text(x = w*(x - 0.5) y = w*(y - 0.5))
+            - }
+    - }
+    g.svg-line
